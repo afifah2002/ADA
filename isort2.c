@@ -5,12 +5,12 @@
 #include<time.h>
 
 
-void printarray(int array[], int size) {
+/*void printarray(int array[], int size) {
   for (int i = 0; i < size; i++) {
     printf("%d ", array[i]);
   }
   printf("\n");
-}
+}*/
 
 void insertionsort(int array[], int size) {
   for (int i = 1; i < size; i++) {
@@ -72,8 +72,10 @@ switch(ch)
           end=clock();
          
   printf("\nsorted array");
-     
-      printarray(a,n);
+     for (int i = 0; i < n; i++) {
+    printf("%d ", a[i]);
+  }
+      //printarray(a,n);
        
     printf("\ntime taken to sort %d number of elements is %f secs",n,(((double)(end-start)/CLOCKS_PER_SEC)));
  
