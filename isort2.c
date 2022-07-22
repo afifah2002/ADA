@@ -5,22 +5,22 @@
 #include<time.h>
 
 
-/*void printarray(int array[], int size) {
+/*void printarray(int a[], int size) {
   for (int i = 0; i < size; i++) {
-    printf("%d ", array[i]);
+    printf("%d ", a[i]);
   }
   printf("\n");
 }*/
 
-void insertionsort(int array[], int size) {
-  for (int i = 1; i < size; i++) {
-    int key = array[i];
+void insertionsort(int a[], int n) {
+  for (int i = 1; i < n; i++) {
+    int key = a[i];
     int j = i - 1;
-    while (key < array[j] && j >= 0) {
-      array[j + 1] = array[j];
+    while (key < a[j] && j >= 0) {
+      a[j + 1] = a[j];
       --j;
     }
-    array[j + 1] = key;
+    a[j + 1] = key;
   }
 }
 
