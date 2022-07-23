@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
-#include<dos.h>
+
 
 int bin_srch(int [], int ,int, int);
 int lin_srch(int [], int ,int, int);
@@ -15,7 +15,7 @@ int main()
 
     while(1)
     {
-        printf("1.Binary Search/t 2.Linear Search/t 3. Exit\n ");
+        printf("1.Binary Search    2.Linear Search  3. Exit\n ");
         printf("Enter your choice: \t");
         scanf("%d",&ch);
         switch(ch)
@@ -37,7 +37,7 @@ int main()
                 else
                     printf("Key found at position %d",search_status);
 
-                for(j=0;j<500000000;j++){temp = 38/600;}
+                for(j=0;j<5000000;j++){temp = 38/600;}
               end= clock();
                 printf("\n time for n = %d is %f Secs",n,(((double)(end-start))/CLOCKS_PER_SEC));
                 n = n+1000;
@@ -61,7 +61,7 @@ int main()
                 else
                     printf("Key found at position %d",search_status);
 
-                for(j=0;j<500000000;j++){temp = 38/600;}
+                for(j=0;j<5000000;j++){temp = 38/600;}
                 end= clock();
                 printf("\n time for n = %d is %f Secs",n,(((double)(end-start))/CLOCKS_PER_SEC));
                 n = n+1000;
@@ -98,18 +98,18 @@ int bin_srch(int a[],int low,int high,int key)
     }
 }
 
-int lin_srch(int a[],int i,int high,int key)
+int lin_srch(int a[],int low,int high,int key)
 {
-    if(i>high)
+    if(low>high)
     {
         return -1;
     }
-    if(key == a[i])
+    if(key == a[low])
     {
-        return i;
+        return low;
     }
     else
     {
-        return lin_srch(a,i+1,high,key);
+        return lin_srch(a,low+1,high,key);
     }
 }
