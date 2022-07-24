@@ -1,117 +1,135 @@
-#include<stdio.h>
-#include<time.h>
-#include<stdlib.h>
-void split(int[],int,int);
-void combine(int[],int,int,int);
-void main()
-{
-int a[15000],n,i,j,ch,temp;
-clock_t start,end;
-while(1)
-{
-printf("\n1.For manual entry of N value and array elements");
-printf("\n2.To display time taken for sorting number elements N in the range 500 to 14500");
-printf("\n3.To exit");
-printf("\nEnter your choice");
-scanf("%d",&ch);
-switch(ch)
-{
-case 1:
-printf("\nEnter the number of elements:");
-scanf("%d",&n);
-printf("\nEnter array elements:");
-for(i=0;i<n;i++)
-{
-scanf("%d",&a[i]);
-}
-start=clock();
-split(a,0,n-1);
-end=clock();
-printf("\nSorted array is:");
-for(i=0;i<n;i++)
-printf("%d\t",a[i]);
-printf("\n Time taken to sort %d numbers is %f Secs",n, (((double)(end-start))/CLOCKS_PER_SEC));
-break;
+#include <stdio.h>
+#include <stdlib.h>
 
-case 2:
-n=500;
-while(n<=15000)
-{
-for(i=0;i<n;i++)
-{
-a[i]=n-i;
-}
-start=clock();
-split(a,0,n-1);
+int flag = 0;
 
-for(j=0;j<50000000;j++)
+int swap(int *a,int *b)
 {
-temp=38/600;
-}
-end=clock();
-printf("\n Time taken to sort %d numbers is %f Secs",n,(((double)(end-start))/CLOCKS_PER_SEC));
-n=n+1000;
-}
-break;
-
-case 3:exit(0);
-}
-getchar();
-}
-}
-void split(int a[],int low,int high)
-{
-int mid;
-if(low<high)
-{
-mid=(low+high)/2;
-split(a,low,mid);
-split(a,mid+1,high);
-combine(a,low,mid,high);
-}
-}
-void combine(int a[],int low,int mid,int high)
-{
-int c[15000],i,j,k;
-i=k=low;
-j=mid+1;
-while(i<=mid&&j<=high)
-{
-if(a[i]<a[j])
-{
-c[k]=a[i];
-++k;
-++i;
-}
-else
-{
-c[k]=a[j];
-++k;
-++j;
-}
-}
-if(i>mid)
-{
-while(j<=high)
-{
-c[k]=a[j];
-++k;
-++j;
-}
-}
-if(j>high)
-{
-while(i<=mid)
-{
-c[k]=a[i];
-++k;
-++i;
-}
-}
-for(i=low;i<=high;i++)
-{
-a[i]=c[i];
-}
+     int t = *a;
+    *a = *b;
+    *b = t;
 }
 
+int search(int arr[],int num,int mobile)
+{
+    int g;
+    for(g=0;g<num;g++)
+    {
+        if(arr[g] == mobile)
+        {
+             return g+1;
+        }
+        else
+        {
+            flag++;
+        }
+    }
+    return -1;
+    
+}
+
+int find_Moblie(int arr[],int d[],int num)
+{
+    int mobile = 0;
+    int mobile_p = 0;
+    int i;
+    for(i=0;i<num;i++)
+    {
+        if((d[arr[i]-1] == 0) && i != 0)
+        {
+            if(arr[i]>arr[i-1] && arr[i]>mobile_p)
+            {
+                mobile = arr[i];
+                mobile_p = mobile;
+            }
+            else
+            {
+                flag++;
+            }
+        }
+        else if((d[arr[i]-1] == 1) & i != num-1)
+        {
+            if(arr[i]>arr[i+1] && arr[i]>mobile_p)
+            {
+                mobile = arr[i];
+                mobile_p = mobile;
+            }
+            else
+            {
+                flag++;
+            }
+        }
+        else
+            {
+                flag++;
+            }
+    }
+    if((mobile_p == 0) && (mobile == 0))
+        return 0;
+    else
+        return mobile;
+}
+
+void permutations(int arr[],int d[],int num)
+{
+    int i;
+    int mobile = find_Moblie(arr,d,num);
+    int pos = search(arr,num,mobile);
+    if(d[arr[pos-1]-1]==0)
+        swap(&arr[pos-1],&arr[pos-2]);
+    else
+        swap(&arr[pos-1],&arr[pos]);
+    for(int i=0;i<num;i++)
+    {
+        if(arr[i] > mobile)
+        {
+            if(d[arr[i]-1]==0)
+                d[arr[i]-1] = 1;
+            else
+                d[arr[i]-1] = 0;
+        }
+    }
+    for(i=0;i<num;i++)
+    {
+        printf(" %d ",arr[i]);
+    }
+}
+
+int factorial(int k)
+{
+    int f = 1;
+    int i = 0;
+    for(i=1;i<k+1;i++)
+    {
+        f = f*i;
+    }
+    return f;
+}
+int main()
+{
+    int num = 0;
+    int i;
+    int j;
+    int z = 0;
+    printf("Johnson trotter algorithm to find all permutations of given numbers \n");
+    printf("Enter the number\n");
+    scanf("%d",&num);
+    int arr[num],d[num];
+    z = factorial(num);
+    printf("%d",z);
+    printf("\nAll possible permutations are: \n");
+    for(i=0;i<num;i++)
+    {
+        d[i] = 0;
+        arr[i] = i+1;
+        printf(" %d ",arr[i]);
+    }
+    printf("\n");
+    for(j=1;j<z;j++)
+    {
+        permutations(arr,d,num);
+        printf("\n");
+    }
+    return 0;
+}
 
